@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeyaul Time</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ═══════════════ HEADER: CLOCK & DATE ═══════════════ -->
+  <div class="header">
+    <div class="brand">
+      <span class="brand-icon">⏰</span>
+      <span class="brand-name">Jeyaul Time</span>
+    </div>
+    <div class="clock-wrap">
+      <div class="clock-row">
+        <span class="clock-digits" id="clock">12:00:00</span>
+        <span class="clock-ampm" id="ampm">AM</span>
+      </div>
+      <div class="clock-date" id="date">Monday, January 01, 2025</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ TAB NAVIGATION ═══════════════ -->
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="timer">⏱ Timer</button>
+    <button class="tab-btn" data-tab="notes">📝 Notes</button>
+    <button class="tab-btn" data-tab="blocker">🚫 Blocker</button>
+    <button class="tab-btn" data-tab="history">📊 History</button>
+  </nav>
+
+  <div class="tab-body">
+
+    <!-- ══════════════ TAB: TIMER ══════════════ -->
+    <div class="tab-panel active" id="tab-timer">
+
+      <!-- Input form -->
+      <div class="card" id="timerSetup">
+        <label class="field-label">Task Description</label>
+        <input
+          type="text"
+          id="taskName"
+          class="input-field"
+          placeholder="What are you working on?"
+          maxlength="60"
+        />
+
+        <label class="field-label" style="margin-top:12px">Duration</label>
+        <div class="duration-row">
+          <div class="dur-field">
+            <input type="number" id="timerHours" class="dur-input" min="0" max="23" value="0" />
+            <span class="dur-label">hrs</span>
+          </div>
+          <span class="dur-sep">:</span>
+          <div class="dur-field">
+            <input type="number" id="timerMinutes" class="dur-input" min="0" max="59" value="25" />
+            <span class="dur-label">min</span>
+          </div>
+          <span class="dur-sep">:</span>
+          <div class="dur-field">
+            <input type="number" id="timerSeconds" class="dur-input" min="0" max="59" value="0" />
+            <span class="dur-label">sec</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary full-width" id="startTimerBtn">▶ Start Timer</button>
+      </div>
+
+      <!-- Active countdown -->
+      <div class="card countdown-card" id="countdownCard" style="display:none">
+        <div class="countdown-task" id="countdownTask">Working…</div>
+        <div class="countdown-display" id="countdownDisplay">00:00:00</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <button class="btn btn-outline full-width" id="cancelTimerBtn">⏹ Cancel Timer</button>
+      </div>
+
+      <!-- Alarm alert (shown when timer ends) -->
+      <div class="alarm-card" id="alarmCard" style="display:none">
+        <div class="alarm-pulse">🔔</div>
+        <p class="alarm-title">Timer Complete!</p>
+        <p class="alarm-sub" id="alarmTaskName"></p>
+        <button class="btn btn-warning full-width" id="stopAlarmBtn">🔕 Stop Alarm</button>
+      </div>
+    </div><!-- /tab-timer -->
+
+    <!-- ══════════════ TAB: NOTES ══════════════ -->
+    <div class="tab-panel" id="tab-notes">
+      <div class="card">
+        <label class="field-label">New Note</label>
+        <textarea
+          id="noteInput"
+          class="textarea-field"
+          placeholder="Type your note… URLs like https://example.com are detected automatically."
+          rows="4"
+        ></textarea>
+        <button class="btn btn-primary full-width" id="saveNoteBtn">💾 Save Note</button>
+      </div>
+
+      <div id="notesList" class="list-wrap">
+        <!-- notes rendered here by JS -->
+      </div>
+    </div><!-- /tab-notes -->
+
+    <!-- ══════════════ TAB: BLOCKER ══════════════ -->
+    <div class="tab-panel" id="tab-blocker">
+      <div class="card">
+        <label class="field-label">Website to Block</label>
+        <input
+          type="text"
+          id="blockerUrl"
+          class="input-field"
+          placeholder="e.g. youtube.com"
+        />
+
+        <label class="field-label" style="margin-top:12px">Block Duration</label>
+        <div class="duration-row">
+          <div class="dur-field">
+            <input type="number" id="blockerHours" class="dur-input" min="0" max="23" value="0" />
+            <span class="dur-label">hrs</span>
+          </div>
+          <span class="dur-sep">:</span>
+          <div class="dur-field">
+            <input type="number" id="blockerMinutes" class="dur-input" min="0" max="59" value="30" />
+            <span class="dur-label">min</span>
+          </div>
+        </div>
+        <button class="btn btn-danger full-width" id="blockSiteBtn">🚫 Block Website</button>
+      </div>
+
+      <div id="blockedList" class="list-wrap">
+        <!-- blocked sites rendered here by JS -->
+      </div>
+    </div><!-- /tab-blocker -->
+
+    <!-- ══════════════ TAB: HISTORY ══════════════ -->
+    <div class="tab-panel" id="tab-history">
+      <div class="history-header">
+        <span class="field-label" style="margin:0">Completed Tasks</span>
+        <button class="btn btn-ghost btn-sm" id="clearHistoryBtn">🗑 Clear All</button>
+      </div>
+
+      <div id="historyList" class="list-wrap">
+        <!-- history items rendered here by JS -->
+      </div>
+    </div><!-- /tab-history -->
+
+  </div><!-- /tab-body -->
+
+  <script src="popup.js"></script>
+</body>
+</html>

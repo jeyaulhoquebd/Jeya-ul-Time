@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeyaul Time — Site Blocked</title>
+  <style>
+    /* ── Root variables ── */
+    :root {
+      --primary:  #7c6ff7;
+      --danger:   #f87171;
+      --warning:  #fbbf24;
+      --bg:       #0d0e1a;
+      --surface:  #141527;
+      --surface2: #1c1e35;
+      --border:   rgba(255,255,255,0.08);
+      --text:     #e8eaf6;
+      --muted:    #8b8fad;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    /* ── Animated background grid ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(124,111,247,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,111,247,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      z-index: 0;
+    }
+
+    /* ── Card ── */
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+
+    /* ── Glow ring ── */
+    .glow-ring {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(248,113,113,0.2), transparent 70%);
+      border: 2px solid rgba(248,113,113,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 44px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);    box-shadow: 0 0 0   0 rgba(248,113,113,0); }
+      50%       { transform: scale(1.04); box-shadow: 0 0 24px 8px rgba(248,113,113,0.2); }
+    }
+
+    /* ── Text ── */
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--danger);
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .blocked-url {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* ── Countdown box ── */
+    .countdown-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+
+    .countdown-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .countdown-time {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: var(--warning);
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 20px rgba(251,191,36,0.3);
+    }
+
+    /* ── Progress bar ── */
+    .progress-wrap {
+      height: 5px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 14px 0 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--warning), var(--danger));
+      border-radius: 99px;
+      transition: width 1s linear;
+    }
+
+    /* ── Motivational quotes ── */
+    .quote {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--muted);
+      border-left: 3px solid var(--primary);
+      padding-left: 14px;
+      text-align: left;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    /* ── Brand footer ── */
+    .footer-brand {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 28px;
+    }
+
+    .footer-brand span {
+      color: var(--primary);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- Icon -->
+    <div class="glow-ring">🚫</div>
+
+    <!-- Title -->
+    <h1>Access Blocked</h1>
+    <div class="blocked-url" id="blockedUrl">this website</div>
+    <p class="subtitle">
+      You blocked this site to stay focused.<br>
+      Stay on track — you're doing great!
+    </p>
+
+    <!-- Countdown -->
+    <div class="countdown-box">
+      <div class="countdown-label">Unblocks in</div>
+      <div class="countdown-time" id="countdown">—</div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar" style="width:100%"></div>
+      </div>
+    </div>
+
+    <!-- Motivational quote (rotates) -->
+    <div class="quote" id="quote"></div>
+
+    <!-- Brand -->
+    <div class="footer-brand">Protected by <span>Jeyaul Time</span></div>
+  </div>
+
+  <script>
+    /* ── Parse URL params ── */
+    const params  = new URLSearchParams(location.search);
+    const site    = params.get('site')    || 'this website';
+    const endTime = parseInt(params.get('endTime') || '0', 10);
+
+    document.getElementById('blockedUrl').textContent = site;
+
+    /* ── Motivational quotes ── */
+    const quotes = [
+      '"Focus is the art of knowing what to ignore." — James Clear',
+      '"The secret of getting ahead is getting started." — Mark Twain',
+      '"You don\'t have to be perfect to make progress."',
+      '"Deep work is the superpower of the 21st century." — Cal Newport',
+      '"One task at a time. That\'s all it takes."',
+      '"Discipline is choosing between what you want now and what you want most."',
+      '"Every productive session starts with saying no to distractions."',
+    ];
+    document.getElementById('quote').textContent =
+      quotes[Math.floor(Math.random() * quotes.length)];
+
+    /* ── Countdown ── */
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function formatRemaining(ms) {
+      if (ms <= 0) return '00:00:00';
+      const s = Math.ceil(ms / 1000);
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const sec = s % 60;
+      return `${pad(h)}:${pad(m)}:${pad(sec)}`;
+    }
+
+    // Calculate total block duration for progress bar
+    // We need a reference: use stored data or default 30min
+    const approxTotalMs = endTime ? (endTime - (Date.now() - 1800000)) : 1800000;
+
+    function tick() {
+      const now       = Date.now();
+      const remaining = Math.max(0, endTime - now);
+
+      document.getElementById('countdown').textContent = formatRemaining(remaining);
+
+      // Shrink progress bar
+      if (endTime > 0) {
+        const pct = Math.min(100, (remaining / Math.max(remaining, approxTotalMs)) * 100);
+        document.getElementById('progressBar').style.width = pct + '%';
+      }
+
+      // When time is up, reload so the site loads normally
+      if (remaining <= 0 && endTime > 0) {
+        document.getElementById('countdown').textContent = 'Unblocked!';
+        setTimeout(() => { location.href = 'https://' + site; }, 1500);
+      }
+    }
+
+    if (endTime > 0) {
+      tick();
+      setInterval(tick, 1000);
+    } else {
+      document.getElementById('countdown').textContent = 'Manually blocked';
+    }
+  </script>
+</body>
+</html>
